@@ -1,5 +1,4 @@
-from scapy import ARP, Ether, srp
-
+from scapy.all import ARP, Ether, srp
 
 def arp_scan(ip_range):
     # Creare un pacchetto ARP per l'intervallo IP
@@ -17,3 +16,7 @@ def arp_scan(ip_range):
 
     return devices
 
+
+# Scansione di un intervallo di IPs
+#devices = arp_scan("192.168.1.0/24")
+#print(devices)

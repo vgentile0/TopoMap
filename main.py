@@ -14,5 +14,5 @@ end_port = int(input("Enter end port: "))
 
 
 # Scansione di un intervallo di IP
-devices = ArpScan.arp_scan("10.10.10.1/24")
-print(devices)
+#devices = ArpScan.arp_scan("10.10.10.1/24")
+#print(devices)
