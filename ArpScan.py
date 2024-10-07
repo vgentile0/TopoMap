@@ -19,11 +19,3 @@ def scan_hosts(network_range):
     return active_hosts
 
 
-# Esempio di utilizzo
-if __name__ == "__main__":
-    network_range = '10.10.10.1/24'  # Specifica la tua subnet
-    active_hosts = scan_hosts(network_range)
-
-    print("Host attivi trovati:")
-    for host in active_hosts:
-        print(host)
