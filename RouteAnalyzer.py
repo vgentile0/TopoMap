@@ -20,5 +20,5 @@ def build_network_graph(devices, routes):
 
 
 # Supponiamo che "devices" e "routes" siano ottenuti tramite le scansioni precedenti
-routes = [('192.168.1.1', '192.168.1.10'), ('192.168.1.1', '192.168.1.20')]
-build_network_graph(devices, routes)
+#routes = [('192.168.1.1', '192.168.1.10'), ('192.168.1.1', '192.168.1.20')]
+#build_network_graph(devices, routes)

@@ -1,22 +1,29 @@
-from scapy.all import ARP, Ether, srp
-
-def arp_scan(ip_range):
-    # Creare un pacchetto ARP per l'intervallo IP
-    arp_request = ARP(pdst=ip_range)
-    ether = Ether(dst="ff:ff:ff:ff:ff:ff")
-    packet = ether / arp_request
-
-    # Inviare il pacchetto e ricevere le risposte
-    result = srp(packet, timeout=2, verbose=0)[0]
-
-    # Elaborare le risposte
-    devices = []
-    for sent, received in result:
-        devices.append({'ip': received.psrc, 'mac': received.hwsrc})
-
-    return devices
+import nmap
 
 
-# Scansione di un intervallo di IPs
-#devices = arp_scan("192.168.1.0/24")
-#print(devices)
+def scan_hosts(network_range):
+    # Creiamo un'istanza dell'oggetto nmap.PortScanner
+    nm = nmap.PortScanner()
+
+    # Eseguiamo la scansione usando il parametro '-sn' per il ping scan
+    nm.scan(hosts=network_range, arguments='-sn')
+
+    # Lista degli host attivi
+    active_hosts = []
+
+    # Iteriamo tra i risultati della scansione
+    for host in nm.all_hosts():
+        if nm[host].state() == "up":
+            active_hosts.append(host)
+
+    return active_hosts
+
+
+# Esempio di utilizzo
+if __name__ == "__main__":
+    network_range = '10.10.10.1/24'  # Specifica la tua subnet
+    active_hosts = scan_hosts(network_range)
+
+    print("Host attivi trovati:")
+    for host in active_hosts:
+        print(host)

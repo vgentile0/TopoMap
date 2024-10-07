@@ -4,5 +4,5 @@ def trace_route(target):
     result, unanswered = traceroute(target)
     return result
 
-#trace = trace_route("8.8.8.8")
-#print(trace)
+trace = trace_route("8.8.8.8")
+print(trace)
