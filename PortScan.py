@@ -15,10 +15,10 @@ class PortScanner:
 
         # Verifica se la porta è aperta o chiusa
         if result == 0:
-            print(f"Port {port} is open")
+           # print(f"Port {port} is open")
             self.portDic[port] = True
         else:
-            print(f"Port {port} is closed")
+            #print(f"Port {port} is closed")
             self.portDic[port] = False
 
         sock.close()
@@ -30,9 +30,4 @@ class PortScanner:
 
         return self.portDic
 
-
-# Esempio di utilizzo
-scanner = PortScanner("1.1.1.1")
-result = scanner.scan_ports(20, 80)  # Scansiona le porte dal 20 al 25
-print(result)
 
