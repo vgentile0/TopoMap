@@ -25,4 +25,4 @@ def get_network_info():
 
     return network_info
 
-print(get_network_info())
+#print(get_network_info())
