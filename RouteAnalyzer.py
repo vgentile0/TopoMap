@@ -1,6 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-from ArpScan import devices
+from main import subnetHost
 
 
 def build_network_graph(devices, routes):
