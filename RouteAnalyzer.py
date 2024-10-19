@@ -1,24 +1,25 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-from main import subnetHost
 
+def plot_route(route_result, target):
+    # Creiamo un grafo vuoto
+    G = nx.DiGraph()  # Utilizziamo un grafo diretto
 
-def build_network_graph(devices, routes):
-    G = nx.Graph()
+    # Iteriamo attraverso i risultati di traceroute e aggiungiamo nodi e collegamenti
+    for idx, (snd, rcv) in enumerate(route_result):
+        G.add_node(idx, label=rcv.src)  # Aggiungiamo un nodo con l'indice
+        if idx > 0:
+            # Aggiungiamo un collegamento dal nodo precedente a quello corrente
+            G.add_edge(idx - 1, idx)
 
-    # Aggiungere i nodi (dispositivi)
-    for device in devices:
-        G.add_node(device['ip'], label=device['mac'])
+    # Disegniamo il grafo
+    pos = nx.spring_layout(G)  # Utilizziamo un layout spring
+    plt.figure(figsize=(12, 8))  # Dimensione della figura
+    nx.draw(G, pos, with_labels=True, node_size=700, node_color="skyblue", font_size=10, font_weight="bold", edge_color="gray")
 
-    # Aggiungere gli archi (rotte)
-    for route in routes:
-        G.add_edge(route[0], route[1])
+    # Aggiungiamo le etichette sui nodi
+    node_labels = {i: rcv.src for i, (snd, rcv) in enumerate(route_result)}
+    nx.draw_networkx_labels(G, pos, labels=node_labels)
 
-    # Disegnare il grafo
-    nx.draw(G, with_labels=True)
+    plt.title(f"Traceroute to {target}")
     plt.show()
-
-
-# Supponiamo che "devices" e "routes" siano ottenuti tramite le scansioni precedenti
-#routes = [('192.168.1.1', '192.168.1.10'), ('192.168.1.1', '192.168.1.20')]
-#build_network_graph(devices, routes)

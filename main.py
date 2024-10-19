@@ -1,4 +1,4 @@
-import  subnetFinder, ArpScan, PortScan, Tracert
+import  subnetFinder, ArpScan, PortScan, Tracert, RouteAnalyzer
 from PortScan import PortScanner
 
 if __name__ == "__main__":
@@ -6,6 +6,7 @@ if __name__ == "__main__":
     net_info= subnetFinder.get_network_info()
     print("Searching for Active Host in LAN")
     #scansione device su subnet
+
     for interface, net_ip in net_info.items():
         subnetHost= ArpScan.scan_hosts(net_ip)
 
@@ -26,4 +27,4 @@ if __name__ == "__main__":
     trace= Tracert.trace_route(target_ip)
     print(trace)
 
-
+    RouteAnalyzer.plot_route(trace, target_ip)
