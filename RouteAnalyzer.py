@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import os
 
 def plot_route(route_result, target):
     # Creiamo un grafo vuoto
@@ -22,4 +23,10 @@ def plot_route(route_result, target):
     nx.draw_networkx_labels(G, pos, labels=node_labels)
 
     plt.title(f"Traceroute to {target}")
+
+    # salvataggio grafo nella cartella Documenti/TopoMap
+    documents_path = os.path.expanduser("~/Documents/TopoMap")  # Percorso della cartella Documenti/TopoMap
+    os.makedirs(documents_path, exist_ok=True)  # Crea la directory se non esiste
+    plt.savefig(os.path.join(documents_path, 'traceroute_graph.png'))  # Salva l'immagine
+
     plt.show()
