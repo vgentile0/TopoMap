@@ -3,4 +3,6 @@
 
 Made by Monica Avella, Ivan Belvito, Vincenzo Gentile, Antonio Favuzzi
 
-- As of now, this tool doesn't have GUI and class RouteAnalyzer is still not implemented. Other classes work as expected.
+- As of now, this tool doesn't have GUI.
+- The graph will be saved in /Documents/TopoMap
+- Other classes work as expected.
