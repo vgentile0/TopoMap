@@ -3,49 +3,49 @@ import matplotlib.pyplot as plt
 import os
 
 def plot_route(route_result, target, active_hosts):
-    # Creiamo un grafo vuoto
-    G = nx.DiGraph()  # Utilizziamo un grafo diretto
+    # Create an empty graph
+    G = nx.DiGraph()  # Use direct graph
 
-    # Aggiungiamo il nodo di partenza
-    G.add_node(0, label=target)  # Nodo di partenza (target)
+    # Add starting node
+    G.add_node(0, label=target)  # Starting node (target)
 
     # Iteriamo attraverso i risultati di traceroute e aggiungiamo nodi e collegamenti
     for idx, (snd, rcv) in enumerate(route_result):
-        G.add_node(idx + 1, label=rcv.src)  # Aggiungiamo un nodo con l'indice
+        G.add_node(idx + 1, label=rcv.src)  # Add node with index
         if idx > 0:
-            # Aggiungiamo un collegamento dal nodo precedente a quello corrente
+            # Add link from previous node to current one
             G.add_edge(idx, idx + 1)
 
-    # Aggiungi i dispositivi attivi come nodi attorno al primo nodo
+    # Add Lan Host to starting node
     for host in active_hosts:
         # Aggiungi un nodo per ogni host attivo
         G.add_node(host, label=host)  # Nodo per l'host attivo
         G.add_edge(0, host)  # Collega l'host al nodo di partenza
 
-    # Disegniamo il grafo
-    pos = nx.spring_layout(G)  # Utilizziamo un layout spring
-    plt.figure(figsize=(16, 12))  # Aumenta la dimensione della figura
+    # Draw graph
+    pos = nx.spring_layout(G)  # Layout: Spring
+    plt.figure(figsize=(16, 12))  # Figure size set
 
-    # Definisci i colori e le dimensioni per i nodi
+    # Define node colours & dimensions
     node_colors = []
     node_sizes = []
     for node in G.nodes():
-        if node == 0:  # Nodo di partenza
-            node_colors.append("skyblue")  # Colore per il nodo target
-            node_sizes.append(1000)  # Dimensione grande per il nodo target
-        elif node in active_hosts:  # Nodi attivi della LAN
-            node_colors.append("green")  # Colore verde per i nodi della LAN
-            node_sizes.append(500)  # Dimensione più piccola per i nodi attivi
+        if node == 0:  # Starting node
+            node_colors.append("skyblue")  # Target Colour
+            node_sizes.append(1000)  # Target Size
+        elif node in active_hosts:  # Lan active host
+            node_colors.append("green")  # green for lan host
+            node_sizes.append(500)  # size of lan hosts nodes
         else:  # Nodi del traceroute
-            node_colors.append("lightgray")  # Colore per i nodi del traceroute
-            node_sizes.append(800)  # Dimensione media per i nodi del traceroute
+            node_colors.append("lightgray")  # Traceroute nodes colour
+            node_sizes.append(800)  # Tracert Nodes size
 
-    # Disegna il grafo con i colori e le dimensioni definiti
+    # Draw graph with defined rules
     nx.draw(G, pos, with_labels=True, node_size=node_sizes, node_color=node_colors, font_size=10, font_weight="bold", edge_color="gray")
 
-    # Aggiungiamo le etichette sui nodi
+    # Add node captures
     node_labels = {i: rcv.src for i, (snd, rcv) in enumerate(route_result)}
-    node_labels.update({host: host for host in active_hosts})  # Aggiungi le etichette degli host attivi
+    node_labels.update({host: host for host in active_hosts})  # Add captures to lan hosts nodes
     nx.draw_networkx_labels(G, pos, labels=node_labels)
 
     # Modifica lo spessore dei rami
@@ -54,9 +54,9 @@ def plot_route(route_result, target, active_hosts):
 
     plt.title(f"Traceroute to {target} and Active Hosts")
 
-    # Salvataggio grafo nella cartella Documenti/TopoMap
-    documents_path = os.path.expanduser("~/Documents/TopoMap")  # Percorso della cartella Documenti/TopoMap
-    os.makedirs(documents_path, exist_ok=True)  # Crea la directory se non esiste
-    plt.savefig(os.path.join(documents_path, 'traceroute_graph.png'))  # Salva l'immagine
+    # Save plot in  Documents/TopoMap
+    documents_path = os.path.expanduser("~/Documents/TopoMap")
+    os.makedirs(documents_path, exist_ok=True)  # Create folder if does't exist
+    plt.savefig(os.path.join(documents_path, 'traceroute_graph.png'))  # Save image
 
     plt.show()

@@ -2,13 +2,14 @@ import nmap
 
 
 def scan_hosts(network_range):
-    # Creiamo un'istanza dell'oggetto nmap.PortScanner
+
+    # Create instance of nmap.PortScanner
     nm = nmap.PortScanner()
 
-    # Eseguiamo la scansione usando il parametro '-sn' per il ping scan
+    # Scan with parameter '-sn' for ping scan
     nm.scan(hosts=network_range, arguments='-sn')
 
-    # Lista degli host attivi
+    # Active host list
     active_hosts = []
 
     # Iteriamo tra i risultati della scansione

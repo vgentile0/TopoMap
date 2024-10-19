@@ -8,12 +8,13 @@ class PortScanner:
         self.portDic = {}
 
     def scan_port(self, port):
+        # Scan single port and update dictionary
         """Scansiona una singola porta e aggiorna il dizionario con lo stato."""
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        socket.setdefaulttimeout(self.timeout)  # Imposta il timeout
-        result = sock.connect_ex((self.ip, port))  # Tenta la connessione alla porta
+        socket.setdefaulttimeout(self.timeout)  # Set timeout
+        result = sock.connect_ex((self.ip, port))  # Try connection to port
 
-        # Verifica se la porta è aperta o chiusa
+        # Check if port is open
         if result == 0:
            # print(f"Port {port} is open")
             self.portDic[port] = True
@@ -24,7 +25,7 @@ class PortScanner:
         sock.close()
 
     def scan_ports(self, start_port, end_port):
-        """Scansiona un intervallo di porte specificato."""
+        # Scan defined port range
         for port in range(start_port, end_port + 1):
             self.scan_port(port)
 

@@ -6,7 +6,7 @@ def trace_route(target):
 
 
 """
-Alternativa: 
+Alternative: 
 
 from scapy.layers.inet import traceroute
 
