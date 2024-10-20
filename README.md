@@ -7,5 +7,5 @@ Made by Monica Avella, Ivan Belvito, Vincenzo Gentile, Antonio Favuzzi
 
 - As of now, this tool doesn't have GUI.
 - The graph will be saved in /Documents/TopoMap
-- 
-Still work in progress, completion date december 2024.
+
+Still work in progress, estimated completion date december 2024.

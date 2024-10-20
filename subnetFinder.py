@@ -25,5 +25,5 @@ def get_network_info():
 
     return network_info
 
-#--- TEST ---
+#---- TEST ----
 #print(get_network_info())

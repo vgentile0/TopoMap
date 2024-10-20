@@ -1,5 +1,4 @@
 import subnetFinder, ArpScan, PortScan, Tracert, RouteAnalyzer
-from PortScan import PortScanner
 
 if __name__ == "__main__":
     # ARP Scan
