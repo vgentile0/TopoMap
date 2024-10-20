@@ -16,7 +16,6 @@ def scan_hosts(network_range):
     for host in nm.all_hosts():
         if nm[host].state() == "up":
             active_hosts.append(host)
-        # TO BE ADDED: controllo ed eliminazione duplicati
 
     return active_hosts
 
