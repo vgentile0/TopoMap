@@ -24,3 +24,5 @@ def trace_route(target):
         print(f"{idx:<2} {rcv.src:<15} {rcv.sport}")
 
     return filtered_result
+
+ # ADD DNS Resolver to allow input url instead of IP address to trace route
