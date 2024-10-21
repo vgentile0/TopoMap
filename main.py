@@ -1,4 +1,4 @@
-import subnetFinder, ArpScan, PortScan, Tracert, RouteAnalyzer
+import subnetFinder, ArpScan, PortScan, Tracert, RouteAnalyzer, IpResolver
 
 if __name__ == "__main__":
     # ARP Scan
@@ -10,11 +10,11 @@ if __name__ == "__main__":
         active_hosts = ArpScan.scan_hosts(net_ip)
         subnet_hosts.extend(active_hosts)  # Add active lan host to list
 
-    print("Host attivi trovati:")
+    print("Active Host found:")
     for host in subnet_hosts:
         print(host)
 
-    target_ip = input("Enter target IP: ")
+    target_ip = IpResolver.ipHandler()
     start_port = int(input("Enter start port: "))
     end_port = int(input("Enter end port: "))
 
