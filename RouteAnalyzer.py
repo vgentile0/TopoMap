@@ -45,7 +45,7 @@ def plot_route(route_result, target, active_hosts):
             node_colors.append("green")  # Green for LAN hosts
             node_sizes.append(400)  # Smaller size for LAN hosts
         else:  # Traceroute nodes
-            node_colors.append("lightgray")  # Color for other traceroute nodes
+            node_colors.append("blue")  # Color for other traceroute nodes
             node_sizes.append(800)  # Size for other traceroute nodes
 
     # Draw the graph with the defined rules
