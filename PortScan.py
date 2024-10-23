@@ -15,9 +15,11 @@ class PortScanner:
 
         # Check if port is open
         if result == 0:
+           # --- TEST ---
            # print(f"Port {port} is open")
             self.portDic[port] = True
         else:
+            # --- TEST ---
             #print(f"Port {port} is closed")
             self.portDic[port] = False
 

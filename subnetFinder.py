@@ -17,7 +17,7 @@ def get_network_info():
                 # Compute newtork addres in CIDR format
                 ip_interface = ipaddress.IPv4Interface(f"{ip_addr}/{netmask}")
                 network = ip_interface.network
-                network_info[interface] = str(network)  # Network in CIDR (eg. 192.168.1.0/24)
+                network_info[interface] = str(network)  # Network in CIDR format (eg. 192.168.1.0/24)
 
         except KeyError:
             # If the interface doesn't have IP skip
