@@ -11,7 +11,7 @@ def trace_route(target):
     # Create an empty list to store the filtered result
     filtered_result = []
 
-    # Iterate over the traceroute result
+    # Iterate over the traceroute result for filtering seen ip
     for snd, rcv in result:
         # Check if the received IP address is already in the set of seen IPs
         if rcv.src not in seen_ips:
@@ -24,5 +24,3 @@ def trace_route(target):
         print(f"{idx:<2} {rcv.src:<15} {rcv.sport}")
 
     return filtered_result
-
- # ADD DNS Resolver to allow input url instead of IP address to trace route
