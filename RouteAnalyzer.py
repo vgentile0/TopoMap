@@ -48,7 +48,7 @@ def plot_route(route_result, target, active_hosts):
             node_colors.append("blue")  # Color for other traceroute nodes
             node_sizes.append(800)  # Size for other traceroute nodes
 
-    # Draw the graph with the defined rules
+    # Draw the graph with the predefined rules
     nx.draw(G, pos, with_labels=True, node_size=node_sizes, node_color=node_colors, font_size=8, font_weight="bold",
             edge_color="gray")
 
