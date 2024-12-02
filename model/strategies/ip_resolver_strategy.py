@@ -17,3 +17,5 @@ class IpResolverStrategy(NetworkOperation):
             return input_value
         else:
             raise ValueError("Invalid IP type.")
+        
+        
