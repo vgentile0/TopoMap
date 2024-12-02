@@ -17,6 +17,9 @@ def get_local_ip():
     raise RuntimeError("Impossibile rilevare l'IP locale.")
 
 def get_network_info():
+    """
+    Raccoglie le informazioni sulle reti disponibili.
+    """
     interfaces = ni.interfaces()
     network_info = {}
 
@@ -29,16 +32,31 @@ def get_network_info():
 
             # Check if IP is loopback (127.x.x.x)
             if not ip_addr.startswith("127."):
-                # Compute newtork addres in CIDR format
+                # Compute network address in CIDR format
                 ip_interface = ipaddress.IPv4Interface(f"{ip_addr}/{netmask}")
                 network = ip_interface.network
-                network_info[interface] = str(network)  # Network in CIDR format (eg. 192.168.1.0/24)
+                network_info[interface] = str(network)  # Network in CIDR format
 
         except KeyError:
-            # If the interface doesn't have IP skip
+            # If the interface doesn't have an IP, skip it
             pass
 
     return network_info
+
+def get_router_ips():
+    """
+    Identifica gli IP dei router o dei gateway predefiniti.
+    """
+    gateways = ni.gateways()
+    router_ips = []
+
+    if ni.AF_INET in gateways:
+        for gateway, interface, is_default in gateways[ni.AF_INET]:
+            if is_default:  # Considera solo i gateway predefiniti
+                router_ips.append((gateway, interface))
+
+    return router_ips
+
 
 #---- TEST ----
 #print(get_network_info())
