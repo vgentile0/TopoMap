@@ -53,7 +53,7 @@ def save_local_network(active_hosts, local_ip, router_ip=None):
     print(f"Rappresentazione della rete locale salvata in: {output_file}")
 
 
-def save_traceroute_result(route_result, target, active_hosts, local_ip, domain=None):
+def save_traceroute_result(route_result, target, active_hosts, local_ip, domain):
     """
     Visualizza e salva una rappresentazione grafica del traceroute.
     """
@@ -79,15 +79,15 @@ def save_traceroute_result(route_result, target, active_hosts, local_ip, domain=
     # Aggiunge gli hop del traceroute
     hop_labels = []
     for idx, (snd, rcv) in enumerate(route_result):
-        hop_label = f"Hop {idx + 1}: {rcv.src}"
-        net.add_node(hop_label, label=rcv.src, color="orange", shape="ellipse")
-        hop_labels.append(hop_label)
+        hop_ip = rcv if isinstance(rcv, str) else rcv.src  # Usa solo l'IP
+        net.add_node(hop_ip, label=hop_ip, color="orange", shape="ellipse")  # Usa l'IP come etichetta
+        hop_labels.append(hop_ip)
 
         # Collega gli hop in ordine
         if idx == 0:
-            net.add_edge(router_label or "Local", hop_label)
+            net.add_edge(router_label or "Local", hop_ip)
         else:
-            net.add_edge(hop_labels[idx - 1], hop_label)
+            net.add_edge(hop_labels[idx - 1], hop_ip)
 
     # Collega l'ultimo hop al Target
     target_label = f"{target} ({domain})" if domain else target
@@ -96,9 +96,9 @@ def save_traceroute_result(route_result, target, active_hosts, local_ip, domain=
         net.add_edge(hop_labels[-1], "Target")
 
     # Salvataggio del file HTML
-    target_folder = os.path.join(TRACEROUTE_FOLDER, f"traceroute_target_{target}")
-    os.makedirs(target_folder, exist_ok=True)
-    output_file = os.path.join(target_folder, f"traceroute_{target}.html")
+    output_file = os.path.join(TRACEROUTE_FOLDER, f"traceroute_{domain}.html")
     net.save_graph(output_file)
 
     print(f"Rappresentazione del traceroute salvata in: {output_file}")
+
+

@@ -61,3 +61,23 @@ class NetworkController:
         Traccia il percorso verso il target specificato.
         """
         return self.model.execute_operation("tracert", target)
+    
+    def resolve_ip_gui(self, target):
+            """
+            Risolve un dominio/IP specificato nella GUI.
+            """
+            try:
+                if "." in target:  # Presume dominio se contiene un punto
+                    ip_type = 1
+                else:
+                    ip_type = 2
+
+                if ip_type == 1:
+                    domain = target
+                    target_ip = self.model.execute_operation("ip_resolver", ip_type, target)
+                    return target_ip, domain
+                else:
+                    target_ip = self.model.execute_operation("ip_resolver", ip_type, target)
+                    return target_ip, None
+            except Exception as e:
+                raise ValueError(f"Errore nella risoluzione: {e}")

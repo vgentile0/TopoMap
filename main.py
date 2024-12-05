@@ -53,36 +53,17 @@ def scan_local_network(controller):
 
     return subnet_hosts, router_ips
 
-def perform_traceroute(controller, subnet_hosts, router_ips):
+def perform_traceroute(controller, subnet_hosts):
     """
     Esegue un traceroute dal proprio IP a un dominio/IP specificato.
     """
-    if not router_ips:
-        print("Attenzione: Nessun router identificato nella rete locale. Il traceroute potrebbe non essere accurato.")
-    
     local_ip = get_local_ip()
-    print(f"Il tuo IP locale è: {local_ip}")
-
     try:
-        # Risolvi il target
         target_ip, domain = controller.resolve_ip(return_domain=True)
-        print(f"Eseguo il traceroute verso {target_ip} ({domain or 'No domain'})...")
-
-        # Esegui il traceroute
         trace = controller.trace_route(target_ip)
-        
-        # Visualizza e salva il risultato
         save_traceroute_result(trace, target_ip, subnet_hosts, local_ip, domain)
-
-        # Stampa i dettagli del traceroute
-        print("\nRisultati del Traceroute:")
-        for snd, rcv in trace:
-            print(f"{rcv.src}")
-
     except ValueError as e:
         print(f"Errore: {e}")
-    except Exception as e:
-        print(f"Errore inaspettato: {e}")
 
 def main():
     # Configura il modello e il controller
@@ -102,10 +83,7 @@ def main():
             subnet_hosts = scan_local_network(controller)
         elif choice == "2":
             # Traceroute fino a un target
-            if not subnet_hosts:
-                print("\nDevi prima scansionare la rete locale (opzione 1) per ottenere il tuo IP.")
-            else:
-                perform_traceroute(controller, subnet_hosts)
+            perform_traceroute(controller, subnet_hosts)
         elif choice == "3":
             print("\nAlla prossima scansione! Arrivederci.")
             break
