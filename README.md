@@ -7,6 +7,4 @@ Simple Network Topology Mapper
 
 Made by Monica Avella, Ivan Belvito, Vincenzo Gentile, Antonio Favuzzi
 
-- The graph will be saved in /Documents/TopoMap
-
 Still work in progress, estimated completion date december 2024.
