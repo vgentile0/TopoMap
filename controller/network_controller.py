@@ -18,25 +18,36 @@ class NetworkController:
         Esegue una scansione ARP sulla rete specificata.
         """
         return self.model.execute_operation("arp_scan", network_range)
-
+    
     def resolve_ip(self, return_domain=False):
         """
         Permette all'utente di scegliere un target IP o dominio.
         Se `return_domain` è True, restituisce sia l'IP che il dominio.
         """
-        print("Type 1 to scan by domain or 2 to scan by IPv4:")
-        ip_type = int(input())
-        input_value = input("Enter target domain or IP: ")
+        while True:
+            try:
+                # Prompt per il tipo di input
+                print("Type 1 to scan by domain or 2 to scan by IPv4:")
+                ip_type = int(input())
+                if ip_type not in [1, 2]:
+                    raise ValueError("Invalid option. Please enter 1 for domain or 2 for IP.")
 
-        if ip_type == 1 and return_domain:
-            # Risoluzione di dominio e restituzione IP e dominio
-            domain = input_value
-            target_ip = self.model.execute_operation("ip_resolver", ip_type, input_value)
-            return target_ip, domain
-        else:
-            # Solo IP (sia da dominio che IPv4 diretto)
-            target_ip = self.model.execute_operation("ip_resolver", ip_type, input_value)
-            return (target_ip, None) if return_domain else target_ip
+                input_value = input("Enter target domain or IP: ")
+
+                if ip_type == 1 and return_domain:
+                    # Risoluzione di dominio e restituzione di IP e dominio
+                    domain = input_value
+                    target_ip = self.model.execute_operation("ip_resolver", ip_type, input_value)
+                    return target_ip, domain
+                else:
+                    # Solo IP (sia da dominio che da IPv4 diretto)
+                    target_ip = self.model.execute_operation("ip_resolver", ip_type, input_value)
+                    return (target_ip, None) if return_domain else target_ip
+
+            except ValueError as e:
+                print(f"Error: {e}. Please try again.")
+            except Exception as e:
+                print(f"Unexpected error: {e}. Please try again.")
 
 
     def scan_ports(self, target_ip, start_port, end_port):
@@ -50,3 +61,23 @@ class NetworkController:
         Traccia il percorso verso il target specificato.
         """
         return self.model.execute_operation("tracert", target)
+    
+    def resolve_ip_gui(self, target):
+            """
+            Risolve un dominio/IP specificato nella GUI.
+            """
+            try:
+                if "." in target:  # Presume dominio se contiene un punto
+                    ip_type = 1
+                else:
+                    ip_type = 2
+
+                if ip_type == 1:
+                    domain = target
+                    target_ip = self.model.execute_operation("ip_resolver", ip_type, target)
+                    return target_ip, domain
+                else:
+                    target_ip = self.model.execute_operation("ip_resolver", ip_type, target)
+                    return target_ip, None
+            except Exception as e:
+                raise ValueError(f"Errore nella risoluzione: {e}")
