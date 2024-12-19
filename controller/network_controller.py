@@ -26,7 +26,7 @@ class NetworkController:
         """
         while True:
             try:
-                # Prompt per il tipo di input
+                
                 print("Type 1 to scan by domain or 2 to scan by IPv4:")
                 ip_type = int(input())
                 if ip_type not in [1, 2]:
@@ -62,22 +62,50 @@ class NetworkController:
         """
         return self.model.execute_operation("tracert", target)
     
-    def resolve_ip_gui(self, target):
-            """
-            Risolve un dominio/IP specificato nella GUI.
-            """
-            try:
-                if "." in target:  # Presume dominio se contiene un punto
-                    ip_type = 1
-                else:
-                    ip_type = 2
+    def is_valid_ip(self, address):
+        import re
+        """
+        Verifica se una stringa è un indirizzo IP valido.
 
-                if ip_type == 1:
-                    domain = target
-                    target_ip = self.model.execute_operation("ip_resolver", ip_type, target)
-                    return target_ip, domain
-                else:
-                    target_ip = self.model.execute_operation("ip_resolver", ip_type, target)
-                    return target_ip, None
-            except Exception as e:
-                raise ValueError(f"Errore nella risoluzione: {e}")
+        Parametri:
+        address (str): La stringa da verificare.
+
+        Ritorna:
+        bool: True se la stringa è un indirizzo IP valido, False altrimenti.
+        """
+        try:
+            # Verifica se l'indirizzo è un indirizzo IPv4 valido
+            pattern = re.compile(r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$") # Definisce il pattern per un indirizzo IPv4 tramite espressione regolare
+            return pattern.match(address) is not None
+        except:
+            return False
+        
+    def resolve_ip_gui(self, target):
+        """
+        Risolve un dominio/IP specificato nella GUI.
+
+        Parametri:
+        target (str): Il dominio o l'indirizzo IP da risolvere.
+
+        Ritorna:
+        tuple: Una tupla contenente l'indirizzo IP risolto e il dominio (se applicabile).
+        """
+        try:
+            if self.is_valid_ip(target):  # Verifica se il target è un indirizzo IP valido
+                ip_type = 2
+                target_ip = target
+                domain = None
+            else:
+                ip_type = 1
+                domain = target
+                target_ip = self.model.execute_operation("ip_resolver", ip_type, target)
+
+            if not target_ip:
+                # Mostra un messaggio di errore nella GUI se l'IP non porta a nessuna risposta
+                raise ValueError("Errore", "L'indirizzo IP o il dominio non ha portato a nessuna risposta.")
+                return None, None
+
+            return target_ip, domain
+        except Exception as e:
+            # Mostra un messaggio di errore nella GUI
+            raise ValueError(f"Errore nella risoluzione: {e}")

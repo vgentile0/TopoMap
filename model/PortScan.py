@@ -8,7 +8,6 @@ class PortScanner:
         self.portDic = {}
 
     def scan_port(self, port):
-        # Scan single port and update dictionary
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket.setdefaulttimeout(self.timeout)  # Set timeout
         result = sock.connect_ex((self.ip, port))  # Try connection to port
