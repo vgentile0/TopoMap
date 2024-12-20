@@ -7,5 +7,3 @@ Simple Network Topology Mapper
 
 Made by Monica Avella, Ivan Belvito, Vincenzo Gentile, Antonio Favuzzi
 
-- The graph will be saved in /Documents/TopoMap/risultati_scansioni
-
